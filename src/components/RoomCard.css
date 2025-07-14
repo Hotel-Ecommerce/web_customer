@@ -1,0 +1,45 @@
+/* RoomCard.css */
+
+.room-card {
+  border: 1px solid #ccc;
+  width: 250px;
+  padding: 10px;
+  border-radius: 8px;
+  transition: box-shadow 0.2s ease;
+  background-color: #fff;
+}
+
+.room-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.room-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.room-type {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0 5px;
+}
+
+.room-price {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.room-button {
+  margin-top: 10px;
+  padding: 6px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+}

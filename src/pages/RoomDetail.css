@@ -1,0 +1,70 @@
+/* RoomDetail.css */
+
+.room-detail {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.room-detail img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.room-detail h2 {
+  margin-top: 15px;
+  font-size: 24px;
+}
+
+.room-detail p {
+  margin: 8px 0;
+}
+
+.room-detail .price {
+  color: #007bff;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.date-picker {
+  display: flex;
+  gap: 12px;
+  margin: 15px 0;
+}
+
+.date-picker input {
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.total-price {
+  margin: 10px 0;
+  font-weight: bold;
+  color: #333;
+}
+
+.room-detail button {
+  padding: 8px 20px;
+  background-color: #007bff;
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.room-detail button:hover {
+  background-color: #0056b3;
+}
+
+.room-detail .error {
+  color: red;
+  margin-top: 10px;
+}

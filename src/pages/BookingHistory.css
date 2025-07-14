@@ -1,0 +1,35 @@
+/* BookingHistory.css */
+
+.booking-history {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.booking-history h2 {
+  margin-bottom: 20px;
+}
+
+.booking-history table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.booking-history th,
+.booking-history td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.booking-history th {
+  background-color: #f0f0f0;
+}
+
+.booking-history tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
