@@ -1,118 +1,36 @@
 import React, { useEffect, useState } from "react";
+import { getBookingsByCustomer } from "../api/BookingAPI";
 import "./BookingHistory.css";
 
 function BookingHistory() {
+  const customerId = localStorage.getItem("customerId");
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    // Giả lập dữ liệu lịch sử đặt phòng
-    const fakeBookings = [
-      {
-        _id: "b001",
-        roomNumber: "101",
-        roomType: "Deluxe",
-        checkInDate: "2025-07-15",
-        checkOutDate: "2025-07-18",
-        totalPrice: 3000000,
-        status: "Confirmed",
-        paymentStatus: "Paid",
-      },
-      {
-        _id: "b002",
-        roomNumber: "205",
-        roomType: "Standard",
-        checkInDate: "2025-06-01",
-        checkOutDate: "2025-06-03",
-        totalPrice: 1600000,
-        status: "Cancelled",
-        paymentStatus: "Refunded",
-      },
-    ];
-
-    // Giả lập delay tải dữ liệu
-    setTimeout(() => {
-      setBookings(fakeBookings);
-      setLoading(false);
-    }, 500);
-  }, []);
-
-  return (
-    <div className="booking-history">
-      <h2>Lịch sử đặt phòng</h2>
-
-      {loading ? (
-        <p>Đang tải dữ liệu...</p>
-      ) : bookings.length === 0 ? (
-        <p>Không có đặt phòng nào.</p>
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Phòng</th>
-              <th>Loại</th>
-              <th>Ngày nhận</th>
-              <th>Ngày trả</th>
-              <th>Trạng thái</th>
-              <th>Thanh toán</th>
-              <th>Tổng tiền</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookings.map((b) => (
-              <tr key={b._id}>
-                <td>{b.roomNumber}</td>
-                <td>{b.roomType}</td>
-                <td>{new Date(b.checkInDate).toLocaleDateString()}</td>
-                <td>{new Date(b.checkOutDate).toLocaleDateString()}</td>
-                <td>{b.status}</td>
-                <td>{b.paymentStatus}</td>
-                <td>{b.totalPrice.toLocaleString()} đ</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
-}
-
-export default BookingHistory;
-
-/*
-import React, { useEffect, useState } from "react";
-import axios from "../services/api";
-import "./BookingHistory.css";
-
-function BookingHistory() {
-  const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    const customerId = localStorage.getItem("customerId");
-    if (!customerId) {
-      setMessage("Không tìm thấy người dùng.");
-      setLoading(false);
-      return;
-    }
-
     const fetchBookings = async () => {
       try {
-        const res = await axios.get("/bookings/list", {
-          params: { customerId },
-        });
-        setBookings(res.data);
+        const data = await getBookingsByCustomer(customerId);
+        setBookings(data);
+        setError("");
       } catch (err) {
-        console.error("Lỗi khi lấy lịch sử đặt phòng:", err);
-        setMessage("Không thể tải lịch sử.");
+        setBookings([]);
+        setError("Không thể tải dữ liệu đặt phòng. Vui lòng thử lại.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBookings();
-  }, []);
+    if (customerId) fetchBookings();
+    else {
+      setError("Bạn chưa đăng nhập.");
+      setLoading(false);
+    }
+  }, [customerId]);
+
+  const formatDate = (dateStr) =>
+    new Date(dateStr).toLocaleDateString("vi-VN");
 
   return (
     <div className="booking-history">
@@ -120,47 +38,72 @@ function BookingHistory() {
 
       {loading ? (
         <p>Đang tải dữ liệu...</p>
-      ) : message ? (
-        <p>{message}</p>
+      ) : error ? (
+        <p className="error">{error}</p>
       ) : bookings.length === 0 ? (
         <p>Không có đặt phòng nào.</p>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Phòng</th>
-              <th>Loại</th>
-              <th>Ngày nhận</th>
-              <th>Ngày trả</th>
-              <th>Trạng thái</th>
-              <th>Thanh toán</th>
-              <th>Tổng tiền</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookings.map((b) => (
-              <tr key={b._id}>
-                <td>{b.roomId?.roomNumber || "N/A"}</td>
-                <td>{b.roomId?.type || "N/A"}</td>
-                <td>{new Date(b.checkInDate).toLocaleDateString()}</td>
-                <td>{new Date(b.checkOutDate).toLocaleDateString()}</td>
-                <td>{b.status}</td>
-                <td>{b.paymentStatus}</td>
-                <td>{b.totalPrice?.toLocaleString()} đ</td>
+        <div className="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Phòng</th>
+                <th>Loại</th>
+                <th>Ngày nhận</th>
+                <th>Ngày trả</th>
+                <th>Ngày đặt</th>
+                <th>Trạng thái</th>
+                <th>Thanh toán</th>
+                <th>Tổng tiền</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {bookings.map((b) => (
+                <tr key={b._id}>
+                  <td>{b.roomId?.roomNumber || "N/A"}</td>
+                  <td>{b.roomId?.type || "Chưa rõ"}</td>
+                  <td>{formatDate(b.checkInDate)}</td>
+                  <td>{formatDate(b.checkOutDate)}</td>
+                  <td>{formatDate(b.createdAt)}</td>
+                  <td>
+                    <span
+                      style={{
+                        color:
+                          b.status === "Cancelled"
+                            ? "red"
+                            : b.status === "Pending"
+                            ? "#ff9800"
+                            : "green",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {b.status}
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      style={{
+                        color:
+                          b.paymentStatus === "Paid"
+                            ? "green"
+                            : b.paymentStatus === "Refunded"
+                            ? "orange"
+                            : "red",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {b.paymentStatus}
+                    </span>
+                  </td>
+                  <td>{b.totalPrice?.toLocaleString()} đ</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
 }
 
 export default BookingHistory;
-
-
-
-*/
-
-
-

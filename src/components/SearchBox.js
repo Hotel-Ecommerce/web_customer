@@ -35,7 +35,7 @@ function SearchBox({ filters, setFilters, onSearch }) {
           value={filters.type}
           onChange={(e) => setFilters({ ...filters, type: e.target.value })}
         >
-          <option value=""> Tất cả </option>
+          <option value="">Tất cả</option>
           <option value="Standard">Standard</option>
           <option value="Deluxe">Deluxe</option>
           <option value="Suite">Suite</option>
@@ -51,7 +51,7 @@ function SearchBox({ filters, setFilters, onSearch }) {
             setFilters({ ...filters, guests: e.target.value })
           }
         >
-          <option value=""> Số khách </option>
+          <option value="">Tất cả</option>
           <option value="1">1 khách</option>
           <option value="2">2 khách</option>
           <option value="3">3 khách</option>
@@ -62,12 +62,10 @@ function SearchBox({ filters, setFilters, onSearch }) {
       {/* Nút tìm kiếm */}
       <div className="search-item">
         <label>&nbsp;</label>
-        <button onClick={onSearch}>Search</button>
+        <button onClick={onSearch}>Tìm phòng</button>
       </div>
     </div>
   );
 }
 
 export default SearchBox;
-
-

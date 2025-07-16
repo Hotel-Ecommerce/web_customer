@@ -33,3 +33,14 @@
   background-color: #fafafa;
 }
 
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  padding: 10px;
+}
+
+
