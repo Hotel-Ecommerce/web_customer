@@ -13,10 +13,9 @@ export const updateCustomer = async (customerData) => {
 };
 
 // Đổi mật khẩu khách hàng
-export const changePassword = async ({ customerId, oldPassword, newPassword }) => {
+export const changePassword = async ({ currentPassword, newPassword }) => {
   const res = await api.post(`/auth/changePassword`, {
-    customerId,
-    oldPassword,
+    currentPassword,
     newPassword,
   });
   return res.data;

@@ -6,8 +6,8 @@ import { changePassword } from "../api/CustomerAPI";
 function ChangePassword() {
   const navigate = useNavigate();
   //const customerId = localStorage.getItem("customerId");
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const customerId = user._id;
+  //const user = JSON.parse(localStorage.getItem("user") || "{}");
+  //const customerId = user._id;
   
   const [form, setForm] = useState({
     oldPassword: "",
@@ -23,7 +23,7 @@ function ChangePassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { oldPassword, newPassword, confirmPassword } = form;
+    const { newPassword, confirmPassword } = form;
 
     if (newPassword !== confirmPassword) {
       setError("Mật khẩu mới không khớp.");
@@ -31,7 +31,7 @@ function ChangePassword() {
     }
 
     try {
-      await changePassword({ customerId, oldPassword, newPassword });
+      await changePassword({ currentPassword: form.oldPassword, newPassword: form.newPassword });
       setMessage("Đổi mật khẩu thành công!");
       setError("");
       setForm({

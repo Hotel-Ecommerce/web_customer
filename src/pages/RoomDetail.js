@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
-import { Carousel } from "react-bootstrap";
+import { Carousel, Modal, Button } from "react-bootstrap";
 import { getRoomById } from "../api/RoomAPI";
 import { addBooking } from "../api/BookingAPI";
 import "./RoomDetail.css";
@@ -17,6 +17,9 @@ function RoomDetail() {
   const [room, setRoom] = useState(null);
   const [total, setTotal] = useState(0);
   const [error, setError] = useState("");
+
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchRoom = async () => {
@@ -57,7 +60,9 @@ function RoomDetail() {
       alert("Đặt phòng thành công!");
       navigate("/my-booking");
     } catch (err) {
-      setError(err.response?.data?.message || "Lỗi đặt phòng");
+      const message = err.response?.data?.message || "Lỗi đặt phòng";
+      setErrorMessage(message);
+      setShowErrorModal(true);
     }
   };
 
@@ -65,7 +70,6 @@ function RoomDetail() {
 
   return (
     <div className="room-detail">
-      {/* Carousel ảnh */}
       <Carousel className="room-carousel">
         {room.images?.map((img, idx) => (
           <Carousel.Item key={idx}>
@@ -106,6 +110,19 @@ function RoomDetail() {
 
       <button onClick={handleBooking}>Đặt phòng</button>
       {error && <div className="error">{error}</div>}
+
+      {/* Modal báo lỗi đặt phòng */}
+      <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title> Phòng không còn trống trong thời gian này </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{errorMessage}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowErrorModal(false)}>
+            Đóng
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

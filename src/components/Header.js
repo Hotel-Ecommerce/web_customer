@@ -11,8 +11,27 @@ function Header() {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
-  const customer = JSON.parse(localStorage.getItem("user") || "{}");
-  const userName = customer?.fullName || "Khách hàng";
+
+  const [userName, setUserName] = useState(() => {
+    const customer = JSON.parse(localStorage.getItem("user") || "{}");
+    return customer?.fullName || "Khách hàng";
+  });
+
+  // Theo dõi khi localStorage thay đổi qua sự kiện 'storage' hoặc trên mỗi render
+  useEffect(() => {
+    const syncUserName = () => {
+      const customer = JSON.parse(localStorage.getItem("user") || "{}");
+      setUserName(customer?.fullName || "Khách hàng");
+    };
+
+    // Gọi mỗi lần mount
+    syncUserName();
+
+    // Cập nhật khi có sự kiện storage (nếu nhiều tab)
+    window.addEventListener("storage", syncUserName);
+
+    return () => window.removeEventListener("storage", syncUserName);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -65,13 +84,22 @@ function Header() {
 
             {open && (
               <div className={styles.dropdownMenu}>
-                <div className={styles.dropdownItem} onClick={() => handleNavigate("/profile")}>
+                <div
+                  className={styles.dropdownItem}
+                  onClick={() => handleNavigate("/profile")}
+                >
                   Thông tin cá nhân
                 </div>
-                <div className={styles.dropdownItem} onClick={() => handleNavigate("/my-booking")}>
+                <div
+                  className={styles.dropdownItem}
+                  onClick={() => handleNavigate("/my-booking")}
+                >
                   Lịch sử đặt phòng
                 </div>
-                <div className={styles.dropdownItem} onClick={() => handleNavigate("/auth/changePassword")}>
+                <div
+                  className={styles.dropdownItem}
+                  onClick={() => handleNavigate("/change-password")}
+                >
                   Đổi mật khẩu
                 </div>
                 <div
@@ -86,13 +114,21 @@ function Header() {
           </div>
         ) : (
           <div className={styles.authLinks}>
-            <Link to="/login" className={styles.authLink}>Đăng nhập</Link>
-            <Link to="/signup" className={styles.authLink}>Đăng ký</Link>
+            <Link to="/login" className={styles.authLink}>
+              Đăng nhập
+            </Link>
+            <Link to="/signup" className={styles.authLink}>
+              Đăng ký
+            </Link>
           </div>
         )}
       </div>
 
-      <Modal show={showLogoutModal} onHide={() => setShowLogoutModal(false)} centered>
+      <Modal
+        show={showLogoutModal}
+        onHide={() => setShowLogoutModal(false)}
+        centered
+      >
         <Modal.Header closeButton>
           <Modal.Title>Xác nhận đăng xuất</Modal.Title>
         </Modal.Header>

@@ -12,22 +12,7 @@ function Profile() {
     address: "",
   });
   const [message, setMessage] = useState("");
-  /*
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        console.log("Gọi API lấy thông tin khách hàng:", customerId);
-        const data = await getCustomerById(customerId);
-        console.log("Thông tin khách hàng:", data);
-        setForm(data);
-      } catch (err) {
-        console.error("Lỗi lấy thông tin khách hàng:", err);
-        setMessage("Không thể tải thông tin.");
-      }
-    };
-    fetchProfile();
-  }, [customerId]);
-  */
+
   useEffect(() => {
     if (!customerId) {
       console.error("Không tìm thấy customerId");
@@ -51,9 +36,14 @@ function Profile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const payload = { ...form, id: customerId }; // gửi id lên
+      const payload = { ...form, id: customerId }; // gửi id
       await updateCustomer(payload);
       setMessage("Cập nhật thành công!");
+
+      // ✅ Cập nhật lại localStorage
+      const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+      const updatedUser = { ...currentUser, ...form }; // giữ token, cập nhật tên, phone, address
+      localStorage.setItem("user", JSON.stringify(updatedUser));
     } catch (err) {
       console.error("Lỗi khi cập nhật:", err.response || err);
       setMessage("Lỗi khi cập nhật.");
