@@ -1,22 +1,24 @@
-import axios from 'axios';
+import api from './axiosInstance';
 
-const API_URL = 'http://localhost:7079';
-
+// Lấy thông tin khách hàng theo ID
 export const getCustomerById = async (id) => {
-  const res = await axios.get(`${API_URL}/customers/${id}`);
+  const res = await api.get(`/customers/${id}`);
   return res.data;
 };
 
+// Cập nhật thông tin khách hàng
 export const updateCustomer = async (customerData) => {
-  const res = await axios.post(`${API_URL}/customers/update`, customerData);
+  const res = await api.post(`/customers/update`, customerData);
   return res.data;
 };
 
+// Đổi mật khẩu khách hàng
 export const changePassword = async ({ customerId, oldPassword, newPassword }) => {
-  const res = await axios.post(`${API_URL}/customer/change-password`, {
+  const res = await api.post(`/auth/changePassword`, {
     customerId,
     oldPassword,
     newPassword,
   });
   return res.data;
 };
+

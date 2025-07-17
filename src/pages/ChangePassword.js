@@ -5,8 +5,10 @@ import { changePassword } from "../api/CustomerAPI";
 
 function ChangePassword() {
   const navigate = useNavigate();
-  const customerId = localStorage.getItem("customerId");
-
+  //const customerId = localStorage.getItem("customerId");
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const customerId = user._id;
+  
   const [form, setForm] = useState({
     oldPassword: "",
     newPassword: "",

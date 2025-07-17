@@ -1,0 +1,94 @@
+.header {
+  background-color: #1E2A38;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  min-height: 72px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 16px rgba(30, 42, 56, 0.15);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #00AEEF;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.avatarWrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  object-fit: cover;
+}
+
+.username {
+  font-weight: 500;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: #fff;
+  color: #333;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  padding: 0.5rem 0;
+  width: 200px;
+  z-index: 999;
+}
+
+.dropdownItem {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-weight: 500;
+}
+
+.dropdownItem:hover {
+  background: #e0f7fa;
+  color: #00AEEF;
+}
+
+.authLinks {
+  display: flex;
+  gap: 16px;
+}
+
+.authLink {
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.authLink:hover {
+  color: #00AEEF;
+}

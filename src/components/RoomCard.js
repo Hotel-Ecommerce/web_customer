@@ -2,11 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import './RoomCard.css';
 
+const IMAGE_BASE_URL = "http://localhost:7079";
+
 function RoomCard({ room, checkIn, checkOut }) {
   return (
     <div className="room-card">
       <img
-        src={room.images[0]}
+        src={`${IMAGE_BASE_URL}${room.images[0]}`}
         alt={room.name}
         className="room-image"
       />

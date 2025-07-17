@@ -1,70 +1,113 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./Header.css";
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { Modal, Button } from "react-bootstrap";
+import { signout } from "../api/AuthAPI";
+import styles from "./Header.module.css";
 
 function Header() {
+  const [open, setOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const avatarRef = useRef();
   const navigate = useNavigate();
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [userName, setUserName] = useState("");
 
   const token = localStorage.getItem("token");
   const customer = JSON.parse(localStorage.getItem("user") || "{}");
+  const userName = customer?.fullName || "Khách hàng";
 
   useEffect(() => {
-    if (customer && customer.fullName) {
-      setUserName(customer.fullName);
-    }
+    const handleClickOutside = (event) => {
+      if (avatarRef.current && !avatarRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleLogout = () => {
+  const handleNavigate = (path) => {
+    setOpen(false);
+    navigate(path);
+  };
+
+  const confirmLogout = async () => {
+    setShowLogoutModal(false);
+    try {
+      await signout();
+    } catch (e) {}
     localStorage.removeItem("token");
-    localStorage.removeItem("customerId");
     localStorage.removeItem("user");
+    localStorage.removeItem("customerId");
     navigate("/login");
   };
 
-  const toggleDropdown = () => setShowDropdown(!showDropdown);
-
   return (
-    <header className="header">
-      <div className="logo">
-        <Link to="/"> Khách sạn UIT </Link>
+    <header className={styles.header}>
+      <div className={styles.left}>
+        <Link to="/" className={styles.logo}>
+          HOTEL BOOKING
+        </Link>
       </div>
 
-      <nav className="nav">
+      <div className={styles.right}>
         {token ? (
-          <>
-            <Link to="/">Tìm phòng</Link>
-            <div className="user-menu">
-              <div className="user-icon" onClick={toggleDropdown}>
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
-                  alt="user"
-                />
-                <span>{userName}</span>
-              </div>
+          <div
+            className={styles.avatarWrapper}
+            ref={avatarRef}
+            onClick={() => setOpen((prev) => !prev)}
+            tabIndex={0}
+          >
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+              alt="Avatar"
+              className={styles.avatar}
+            />
+            <span className={styles.username}>{userName}</span>
 
-              {showDropdown && (
-                <div className="dropdown-menu">
-                  <Link to="/profile">Thông tin cá nhân</Link>
-                  <Link to="/my-booking">Lịch sử đặt phòng</Link>
-                  <Link to="/change-password">Đổi mật khẩu</Link>
-                  <button onClick={handleLogout} className="logout-btn">
-                    Đăng xuất
-                  </button>
+            {open && (
+              <div className={styles.dropdownMenu}>
+                <div className={styles.dropdownItem} onClick={() => handleNavigate("/profile")}>
+                  Thông tin cá nhân
                 </div>
-              )}
-            </div>
-          </>
+                <div className={styles.dropdownItem} onClick={() => handleNavigate("/my-booking")}>
+                  Lịch sử đặt phòng
+                </div>
+                <div className={styles.dropdownItem} onClick={() => handleNavigate("/auth/changePassword")}>
+                  Đổi mật khẩu
+                </div>
+                <div
+                  className={styles.dropdownItem}
+                  style={{ color: "#dc3545" }}
+                  onClick={() => setShowLogoutModal(true)}
+                >
+                  Đăng xuất
+                </div>
+              </div>
+            )}
+          </div>
         ) : (
-          <>
-            <Link to="/login">Đăng nhập</Link>
-            <Link to="/signup">Đăng ký</Link>
-          </>
+          <div className={styles.authLinks}>
+            <Link to="/login" className={styles.authLink}>Đăng nhập</Link>
+            <Link to="/signup" className={styles.authLink}>Đăng ký</Link>
+          </div>
         )}
-      </nav>
+      </div>
+
+      <Modal show={showLogoutModal} onHide={() => setShowLogoutModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Xác nhận đăng xuất</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Bạn có chắc chắn muốn đăng xuất?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowLogoutModal(false)}>
+            Huỷ
+          </Button>
+          <Button variant="danger" onClick={confirmLogout}>
+            Đăng xuất
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </header>
   );
-}
+};
 
 export default Header;

@@ -1,13 +1,17 @@
-import axios from 'axios';
-
-const API_URL = 'http://localhost:7079';
+import api from './axiosInstance';
 
 export const login = async (email, password) => {
-  const res = await axios.post(`${API_URL}/login`, { email, password });
+  const res = await api.post(`/auth/login`, { email, password });
   return res.data;
 };
 
 export const signup = async (signupData) => {
-  const res = await axios.post(`${API_URL}/signup`, signupData);
+  const res = await api.post(`/auth/signup`, signupData);
   return res.data;
 };
+
+export const signout = async () => {
+  const res = await api.post(`/auth/signout`);
+  return res.data;
+};
+

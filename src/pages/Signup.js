@@ -21,6 +21,7 @@ const Signup = () => {
     setSuccess('');
     setLoading(true);
     try {
+      console.log("a1");
       await signup(form);
       setSuccess('Đăng ký thành công! Chuyển về trang đăng nhập...');
       setTimeout(() => navigate('/login'), 1500);

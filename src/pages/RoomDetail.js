@@ -69,7 +69,11 @@ function RoomDetail() {
       <Carousel className="room-carousel">
         {room.images?.map((img, idx) => (
           <Carousel.Item key={idx}>
-            <img className="d-block w-100" src={img} alt={`Ảnh ${idx + 1}`} />
+            <img
+              className="d-block w-100"
+              src={`http://localhost:7079${img}`}
+              alt={`Ảnh ${idx + 1}`}
+            />
           </Carousel.Item>
         ))}
       </Carousel>
@@ -98,9 +102,7 @@ function RoomDetail() {
         </label>
       </div>
 
-      <div className="total-price">
-        Tổng tiền: {total.toLocaleString()} đ
-      </div>
+      <div className="total-price">Tổng tiền: {total.toLocaleString()} đ</div>
 
       <button onClick={handleBooking}>Đặt phòng</button>
       {error && <div className="error">{error}</div>}

@@ -33,6 +33,13 @@ function Home() {
   const handleSearch = async () => {
     const { checkIn, checkOut, type, guests } = filters;
 
+    console.log("Đang tìm phòng với:", {
+      checkIn,
+      checkOut,
+      type,
+      guests,
+    });
+
     if (!checkIn || !checkOut) {
       // Nếu chưa chọn ngày → chỉ lọc local
       const filtered = rooms.filter((room) => {
@@ -44,13 +51,24 @@ function Home() {
       });
       setRooms(filtered);
     } else {
-      // Nếu có ngày → gọi API thật
+      // Gọi API tìm phòng còn trống
       setLoading(true);
       try {
-        const data = await getAvailableRooms({ type, guests, checkIn, checkOut });
+        const data = await getAvailableRooms({
+          checkIn,
+          checkOut,
+          type,
+          guests,
+        });
+        console.log("Calling API with params:", {
+          checkInDate: checkIn,
+          checkOutDate: checkOut,
+          type,
+          capacity: guests ? parseInt(guests) : undefined,
+        });
         setRooms(data);
       } catch (err) {
-        console.error("Lỗi gọi /rooms/available:", err);
+        console.error("Lỗi gọi API /rooms/list/available:", err);
         setRooms([]);
       } finally {
         setLoading(false);
