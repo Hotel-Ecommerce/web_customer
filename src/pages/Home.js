@@ -4,7 +4,8 @@ import RoomCard from "../components/RoomCard";
 import { getAllRooms, getAvailableRooms } from "../api/RoomAPI";
 
 function Home() {
-  const [rooms, setRooms] = useState([]);
+  const [allRooms, setAllRooms] = useState([]); // Lưu tất cả phòng
+  const [rooms, setRooms] = useState([]);       // Dùng để hiển thị
   const [filters, setFilters] = useState({
     type: "",
     guests: "",
@@ -19,6 +20,7 @@ function Home() {
       setLoading(true);
       try {
         const data = await getAllRooms();
+        setAllRooms(data);
         setRooms(data);
       } catch (err) {
         console.error("Lỗi lấy danh sách phòng:", err);
@@ -33,38 +35,31 @@ function Home() {
   const handleSearch = async () => {
     const { checkIn, checkOut, type, guests } = filters;
 
-    console.log("Đang tìm phòng với:", {
-      checkIn,
-      checkOut,
-      type,
-      guests,
-    });
+    console.log("Đang tìm phòng với:", { checkIn, checkOut, type, guests });
+
+    // Kiểm tra ngày
+    if (checkIn && checkOut && new Date(checkIn) >= new Date(checkOut)) {
+      alert("Ngày nhận phải trước ngày trả phòng.");
+      return;
+    }
 
     if (!checkIn || !checkOut) {
-      // Nếu chưa chọn ngày → chỉ lọc local
-      const filtered = rooms.filter((room) => {
+      // Nếu chưa chọn ngày → lọc local
+      const filtered = allRooms.filter((room) => {
         const matchType = type ? room.type === type : true;
-        const matchGuests = guests
-          ? room.capacity >= parseInt(guests)
-          : true;
+        const matchGuests = guests ? room.capacity >= parseInt(guests) : true;
         return matchType && matchGuests;
       });
       setRooms(filtered);
     } else {
-      // Gọi API tìm phòng còn trống
+      // Có ngày → gọi API
       setLoading(true);
       try {
         const data = await getAvailableRooms({
           checkIn,
           checkOut,
-          type,
-          guests,
-        });
-        console.log("Calling API with params:", {
-          checkInDate: checkIn,
-          checkOutDate: checkOut,
-          type,
-          capacity: guests ? parseInt(guests) : undefined,
+          //type,
+          //guests,
         });
         setRooms(data);
       } catch (err) {
@@ -78,11 +73,17 @@ function Home() {
 
   return (
     <>
-      <SearchBox filters={filters} setFilters={setFilters} onSearch={handleSearch} />
+      <SearchBox
+        filters={filters}
+        setFilters={setFilters}
+        onSearch={handleSearch}
+      />
 
       <div style={styles.roomList}>
         {loading ? (
-          <p>Đang tải phòng...</p>
+          <div style={{ textAlign: "center", padding: 40 }}>
+            <p>Đang tải phòng...</p>
+          </div>
         ) : rooms.length > 0 ? (
           rooms.map((room) => (
             <RoomCard
@@ -111,3 +112,4 @@ const styles = {
 };
 
 export default Home;
+

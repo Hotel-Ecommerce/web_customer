@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Form, Button, Container, Row, Col, Card, Alert } from 'react-bootstrap';
 import { login } from '../api/AuthAPI';
 
@@ -8,7 +8,12 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // ✅ Lấy đường dẫn redirect từ URL (nếu có), mặc định là "/"
+  const redirectPath = new URLSearchParams(location.search).get('redirect') || '/';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,12 +22,13 @@ const Login = () => {
     try {
       const data = await login(email, password);
 
-      // ✅ Lưu customerId và toàn bộ thông tin user (không cần bọc vào user object)
+      // ✅ Lưu thông tin người dùng
       localStorage.setItem('token', data.token);
-      localStorage.setItem('customerId', data._id); // ✅ CHÍNH XÁC từ backend
-      localStorage.setItem('user', JSON.stringify(data)); // Lưu toàn bộ user info
+      localStorage.setItem('customerId', data._id);
+      localStorage.setItem('user', JSON.stringify(data));
 
-      navigate('/');
+      // ✅ Điều hướng đến trang redirect sau khi login
+      navigate(redirectPath);
     } catch (err) {
       setError(err.response?.data?.message || 'Đăng nhập thất bại!');
     } finally {
@@ -67,7 +73,9 @@ const Login = () => {
 
                 <div className="mt-3 text-center">
                   <span>Bạn chưa có tài khoản? </span>
-                  <Button variant="link" onClick={() => navigate('/signup')}>Đăng ký</Button>
+                  <Button variant="link" onClick={() => navigate('/signup')}>
+                    Đăng ký
+                  </Button>
                 </div>
               </Form>
             </Card.Body>

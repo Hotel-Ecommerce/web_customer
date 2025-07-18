@@ -5,6 +5,7 @@
   background: #fff;
   border-radius: 10px;
   border: 1px solid #ddd;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Thêm nhẹ bóng */
 }
 
 .room-carousel {
@@ -12,7 +13,7 @@
 }
 
 .room-carousel img {
-  height: 200px; /* Giảm một nửa chiều cao ảnh */
+  height: 240px;
   object-fit: cover;
   width: 100%;
   border-radius: 10px;
@@ -22,11 +23,13 @@
   margin-top: 0;
   margin-bottom: 10px;
   font-size: 24px;
+  font-weight: 600;
 }
 
 .room-detail p {
   margin: 6px 0;
   font-size: 15px;
+  color: #333;
 }
 
 .room-detail .price {
@@ -48,6 +51,12 @@
   color: #333;
 }
 
+.date-picker input {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 .total-price {
   margin-top: 15px;
   font-weight: bold;
@@ -63,6 +72,7 @@
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .room-detail button:hover {
@@ -73,4 +83,30 @@
   margin-top: 15px;
   color: red;
   font-size: 14px;
+}
+
+/* Optional: tinh chỉnh modal nếu cần */
+.modal-title {
+  font-weight: 600;
+}
+
+.modal-body {
+  font-size: 15px;
+}
+
+.modal-footer button {
+  min-width: 100px;
+}
+
+.room-detail button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.room-carousel img {
+  transition: filter 0.2s ease-in-out;
+}
+
+.room-carousel img.loading {
+  filter: blur(8px);
 }
