@@ -43,63 +43,48 @@ function BookingHistory() {
       ) : bookings.length === 0 ? (
         <p>Không có đặt phòng nào.</p>
       ) : (
-        <div className="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Phòng</th>
-                <th>Loại</th>
-                <th>Ngày nhận</th>
-                <th>Ngày trả</th>
-                <th>Ngày đặt</th>
-                <th>Trạng thái</th>
-                <th>Thanh toán</th>
-                <th>Tổng tiền</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookings.map((b) => (
-                <tr key={b._id}>
-                  <td>{b.roomId?.roomNumber || "N/A"}</td>
-                  <td>{b.roomId?.type || "Chưa rõ"}</td>
-                  <td>{formatDate(b.checkInDate)}</td>
-                  <td>{formatDate(b.checkOutDate)}</td>
-                  <td>{formatDate(b.createdAt)}</td>
-                  <td>
-                    <span
-                      style={{
-                        color:
-                          b.status === "Cancelled"
-                            ? "red"
-                            : b.status === "Pending"
-                            ? "#ff9800"
-                            : "green",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {b.status}
-                    </span>
-                  </td>
-                  <td>
-                    <span
-                      style={{
-                        color:
-                          b.paymentStatus === "Paid"
-                            ? "green"
-                            : b.paymentStatus === "Refunded"
-                            ? "orange"
-                            : "red",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {b.paymentStatus}
-                    </span>
-                  </td>
-                  <td>{b.totalPrice?.toLocaleString()} đ</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="booking-list">
+          {bookings.map((b) => (
+            <div key={b._id} className="booking-card">
+              <div className="booking-header">
+                <span className="room-type">{b.roomId?.type}</span>
+                <span className="room-number">Phòng {b.roomId?.roomNumber}</span>
+              </div>
+              <div className="booking-dates">
+                <p>
+                  <strong>Nhận phòng:</strong> {formatDate(b.checkInDate)}
+                </p>
+                <p>
+                  <strong>Trả phòng:</strong> {formatDate(b.checkOutDate)}
+                </p>
+                <p>
+                  <strong>Ngày đặt:</strong> {formatDate(b.createdAt)}
+                </p>
+              </div>
+              <div className="booking-status">
+                <p>
+                  <strong>Trạng thái:</strong>{" "}
+                  <span className={`status ${b.status.toLowerCase()}`}>
+                    {b.status}
+                  </span>
+                </p>
+                <p>
+                  <strong>Thanh toán:</strong>{" "}
+                  <span
+                    className={`payment ${b.paymentStatus.toLowerCase()}`}
+                  >
+                    {b.paymentStatus}
+                  </span>
+                </p>
+                <p>
+                  <strong>Tổng tiền:</strong>{" "}
+                  <span className="price">
+                    {b.totalPrice?.toLocaleString()} đ
+                  </span>
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>

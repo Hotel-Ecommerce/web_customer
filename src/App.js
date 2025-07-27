@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
 import ChangePassword from "./pages/ChangePassword";
+import PaymentPage from "./pages/PaymentPage";
+
 import PrivateRoute from "./components/PrivateRoute";
 import MainLayout from "./components/MainLayout";
 
@@ -24,13 +26,25 @@ function App() {
         }
       />
 
-      {/* Trang chi tiết phòng - KHÔNG cần đăng nhập */}
+      {/* Trang chi tiết phòng */}
       <Route
         path="/room/:id"
         element={
           <MainLayout>
             <RoomDetail />
           </MainLayout>
+        }
+      />
+
+      {/* ✅ Trang thanh toán có tham số bookingId */}
+      <Route
+        path="/payment/:bookingId"
+        element={
+          <PrivateRoute>
+            <MainLayout>
+              <PaymentPage />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
 
@@ -58,10 +72,7 @@ function App() {
         }
       />
 
-      {/* Đăng nhập / Đăng ký */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-
+      {/* Đổi mật khẩu */}
       <Route
         path="/change-password"
         element={
@@ -73,7 +84,11 @@ function App() {
         }
       />
 
-      {/* 404 */}
+      {/* Đăng nhập / Đăng ký */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+
+      {/* 404 Not Found */}
       <Route
         path="*"
         element={
@@ -88,4 +103,3 @@ function App() {
 }
 
 export default App;
-

@@ -1,0 +1,42 @@
+.payment-page {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+}
+
+.booking-summary p {
+  margin: 6px 0;
+}
+
+.payment-options {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.payment-options button {
+  padding: 10px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.offline-btn {
+  background-color: #2196f3;
+  color: white;
+}
+
+.online-btn {
+  background-color: green;
+  color: white;
+}
+
+.result-message {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+

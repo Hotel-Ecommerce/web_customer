@@ -1,27 +1,30 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import './RoomCard.css';
-
-const IMAGE_BASE_URL = "http://localhost:7079";
+import { useNavigate } from "react-router-dom";
+import "./RoomCard.css";
 
 function RoomCard({ room, checkIn, checkOut }) {
-  return (
-    <div className="room-card">
-      <img
-        src={`${IMAGE_BASE_URL}${room.images[0]}`}
-        alt={room.name}
-        className="room-image"
-      />
-      <div className="room-type">{room.type} Room</div>
-      <div className="room-price">{room.price.toLocaleString()} đ / ngày</div>
+  const navigate = useNavigate();
 
-      <Link
-        to={`/room/${room._id}?checkIn=${checkIn}&checkOut=${checkOut}`}
-        className="room-button"
-        state={{ room }}
-      >
-        Xem chi tiết
-      </Link>
+  const handleClick = () => {
+    let url = `/room/${room._id}`;
+    if (checkIn && checkOut) {
+      url += `?checkIn=${checkIn}&checkOut=${checkOut}`;
+    }
+    navigate(url);
+  };
+
+  return (
+    <div className="room-card" onClick={handleClick}>
+      <div className="room-img">
+        <img src={`http://localhost:7079${room.images?.[0]}`} alt={room.type} />
+      </div>
+      <div className="room-info">
+        <h3>{room.type} Room</h3>
+        <p className="description">{room.description}</p>
+        <p>Sức chứa: {room.capacity} khách</p>
+        <p className="price">{room.price.toLocaleString()} đ / đêm</p>
+        <button>Xem chi tiết</button>
+      </div>
     </div>
   );
 }

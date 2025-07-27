@@ -20,13 +20,10 @@ function RoomDetail() {
 
   const [showErrorModal, setShowErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [pendingBooking, setPendingBooking] = useState(null);
-
   const [showConflictModal, setShowConflictModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false); 
 
   useEffect(() => {
     const fetchRoom = async () => {
@@ -55,6 +52,7 @@ function RoomDetail() {
 
   const handleBooking = () => {
     const customerId = localStorage.getItem("customerId");
+    const today = new Date().toISOString().split("T")[0];
 
     if (!customerId) {
       setShowLoginModal(true);
@@ -67,29 +65,38 @@ function RoomDetail() {
       return;
     }
 
+    if (checkIn < today) {
+      setErrorMessage("Ngày nhận phòng không được trong quá khứ.");
+      setShowErrorModal(true);
+      return;
+    }
+
+    if (checkOut <= checkIn) {
+      setErrorMessage("Ngày trả phòng phải sau ngày nhận phòng.");
+      setShowErrorModal(true);
+      return;
+    }
+
     setPendingBooking({
       customerId,
       roomId: id,
       checkInDate: checkIn,
       checkOutDate: checkOut,
+      totalPrice: total,
     });
     setShowConfirmModal(true);
   };
 
   const confirmBooking = async () => {
     try {
-      await addBooking(pendingBooking);
+      const res = await addBooking(pendingBooking);
       setShowConfirmModal(false);
-      setShowSuccessModal(true); 
+      navigate(`/payment/${res._id}`);
     } catch (err) {
       setShowConfirmModal(false);
       const message = err.response?.data?.message;
-
       if (message?.includes("Phòng không có sẵn")) {
         setShowConflictModal(true);
-      } else if (message?.includes("ngày không hợp lệ")) {
-        setErrorMessage("Ngày nhận và trả không hợp lệ.");
-        setShowErrorModal(true);
       } else {
         setErrorMessage(message || "Lỗi đặt phòng.");
         setShowErrorModal(true);
@@ -124,6 +131,7 @@ function RoomDetail() {
           <input
             type="date"
             value={checkIn}
+            min={new Date().toISOString().split("T")[0]} // ✅ Không chọn ngày trong quá khứ
             onChange={(e) => setCheckIn(e.target.value)}
           />
         </label>
@@ -132,6 +140,7 @@ function RoomDetail() {
           <input
             type="date"
             value={checkOut}
+            min={checkIn || new Date().toISOString().split("T")[0]}
             onChange={(e) => setCheckOut(e.target.value)}
           />
         </label>
@@ -142,10 +151,10 @@ function RoomDetail() {
       <button onClick={handleBooking}>Đặt phòng</button>
       {error && <div className="error">{error}</div>}
 
-      {/* Modal lỗi chung */}
+      {/* Modal lỗi */}
       <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Không thể đặt phòng</Modal.Title>
+          <Modal.Title>Lỗi đặt phòng</Modal.Title>
         </Modal.Header>
         <Modal.Body>{errorMessage}</Modal.Body>
         <Modal.Footer>
@@ -155,7 +164,7 @@ function RoomDetail() {
         </Modal.Footer>
       </Modal>
 
-      {/* Modal xác nhận đặt phòng */}
+      {/* Modal xác nhận */}
       <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Xác nhận đặt phòng</Modal.Title>
@@ -175,7 +184,7 @@ function RoomDetail() {
         </Modal.Footer>
       </Modal>
 
-      {/* Modal khi phòng trùng lịch */}
+      {/* Modal phòng trùng lịch */}
       <Modal show={showConflictModal} onHide={() => setShowConflictModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Phòng không còn trống</Modal.Title>
@@ -196,35 +205,13 @@ function RoomDetail() {
         </Modal.Footer>
       </Modal>
 
-      {/* ✅ Modal thông báo thành công */}
-      <Modal show={showSuccessModal} onHide={() => setShowSuccessModal(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Đặt phòng thành công</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Bạn đã đặt phòng thành công từ <strong>{formatDate(checkIn)}</strong> đến{" "}
-          <strong>{formatDate(checkOut)}</strong>.
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="primary"
-            onClick={() => {
-              setShowSuccessModal(false);
-              navigate("/my-booking");
-            }}
-          >
-            Xem lịch sử đặt phòng
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
       {/* Modal yêu cầu đăng nhập */}
       <Modal show={showLoginModal} onHide={() => setShowLoginModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Yêu cầu đăng nhập</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Bạn cần đăng nhập để tiếp tục đặt phòng. Bạn có muốn chuyển đến trang đăng nhập không?
+          Bạn cần đăng nhập để đặt phòng. Chuyển đến trang đăng nhập?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowLoginModal(false)}>
@@ -246,5 +233,3 @@ function RoomDetail() {
 }
 
 export default RoomDetail;
-
-

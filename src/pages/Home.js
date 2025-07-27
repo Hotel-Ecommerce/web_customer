@@ -4,8 +4,8 @@ import RoomCard from "../components/RoomCard";
 import { getAllRooms, getAvailableRooms } from "../api/RoomAPI";
 
 function Home() {
-  const [allRooms, setAllRooms] = useState([]); // Lưu tất cả phòng
-  const [rooms, setRooms] = useState([]);       // Dùng để hiển thị
+  const [allRooms, setAllRooms] = useState([]);
+  const [rooms, setRooms] = useState([]);
   const [filters, setFilters] = useState({
     type: "",
     guests: "",
@@ -14,7 +14,6 @@ function Home() {
   });
   const [loading, setLoading] = useState(true);
 
-  // Load tất cả phòng khi trang mở lần đầu
   useEffect(() => {
     const fetchRooms = async () => {
       setLoading(true);
@@ -31,20 +30,14 @@ function Home() {
     fetchRooms();
   }, []);
 
-  // Bấm Search
   const handleSearch = async () => {
     const { checkIn, checkOut, type, guests } = filters;
-
-    console.log("Đang tìm phòng với:", { checkIn, checkOut, type, guests });
-
-    // Kiểm tra ngày
     if (checkIn && checkOut && new Date(checkIn) >= new Date(checkOut)) {
       alert("Ngày nhận phải trước ngày trả phòng.");
       return;
     }
 
     if (!checkIn || !checkOut) {
-      // Nếu chưa chọn ngày → lọc local
       const filtered = allRooms.filter((room) => {
         const matchType = type ? room.type === type : true;
         const matchGuests = guests ? room.capacity >= parseInt(guests) : true;
@@ -52,15 +45,9 @@ function Home() {
       });
       setRooms(filtered);
     } else {
-      // Có ngày → gọi API
       setLoading(true);
       try {
-        const data = await getAvailableRooms({
-          checkIn,
-          checkOut,
-          //type,
-          //guests,
-        });
+        const data = await getAvailableRooms({ checkIn, checkOut });
         setRooms(data);
       } catch (err) {
         console.error("Lỗi gọi API /rooms/list/available:", err);
@@ -73,11 +60,13 @@ function Home() {
 
   return (
     <>
-      <SearchBox
-        filters={filters}
-        setFilters={setFilters}
-        onSearch={handleSearch}
-      />
+      <div style={{ marginTop: 20 }}>
+        <SearchBox
+          filters={filters}
+          setFilters={setFilters}
+          onSearch={handleSearch}
+        />
+      </div>
 
       <div style={styles.roomList}>
         {loading ? (
@@ -104,10 +93,11 @@ function Home() {
 const styles = {
   roomList: {
     display: "flex",
-    flexWrap: "wrap",
+    flexDirection: "column",
     gap: "20px",
     padding: "20px",
-    justifyContent: "flex-start",
+    alignItems: "center",
+    maxWidth: "100%",
   },
 };
 

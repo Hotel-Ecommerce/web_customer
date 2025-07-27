@@ -1,45 +1,72 @@
-/* RoomCard.css */
-
 .room-card {
-  border: 1px solid #ccc;
-  width: 250px;
-  padding: 10px;
-  border-radius: 8px;
-  transition: box-shadow 0.2s ease;
-  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  width: 100%;
+  max-width: 900px;
 }
 
 .room-card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
-.room-image {
+.room-img {
+  flex: 0 0 300px;
+  height: 200px;
+  overflow: hidden;
+}
+
+.room-img img {
   width: 100%;
-  height: 150px;
+  height: 100%;
   object-fit: cover;
-  border-radius: 6px;
 }
 
-.room-type {
-  font-size: 18px;
+.room-info {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.room-info h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  color: #333;
+}
+
+.room-info .description {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.room-info .price {
   font-weight: bold;
-  margin: 10px 0 5px;
+  font-size: 16px;
+  color: #cc0000;
+  margin-bottom: 10px;
 }
 
-.room-price {
-  color: #007bff;
-  font-weight: bold;
-}
-
-.room-button {
-  margin-top: 10px;
-  padding: 6px 12px;
-  background-color: #007bff;
+.room-info button {
+  align-self: flex-start;
+  background-color: #0066ff;
   color: white;
+  padding: 8px 16px;
   border: none;
   border-radius: 6px;
-  text-decoration: none;
-  display: inline-block;
   font-size: 14px;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
+
+.room-info button:hover {
+  background-color: #0052cc;
+}
+

@@ -2,6 +2,8 @@ import React from "react";
 import "./SearchBox.css";
 
 function SearchBox({ filters, setFilters, onSearch }) {
+  const today = new Date().toISOString().split("T")[0];
+
   return (
     <div className="search-box">
       {/* Ngày nhận */}
@@ -10,6 +12,7 @@ function SearchBox({ filters, setFilters, onSearch }) {
         <input
           type="date"
           value={filters.checkIn}
+          min={today} // Không chọn ngày trong quá khứ
           onChange={(e) =>
             setFilters({ ...filters, checkIn: e.target.value })
           }
@@ -22,6 +25,7 @@ function SearchBox({ filters, setFilters, onSearch }) {
         <input
           type="date"
           value={filters.checkOut}
+          min={filters.checkIn || today}
           onChange={(e) =>
             setFilters({ ...filters, checkOut: e.target.value })
           }

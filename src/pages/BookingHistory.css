@@ -1,40 +1,90 @@
-/* BookingHistory.css */
-
 .booking-history {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 30px auto;
   padding: 20px;
-  background: #fff;
-  border-radius: 10px;
-  border: 1px solid #ddd;
 }
 
 .booking-history h2 {
   margin-bottom: 20px;
+  font-size: 28px;
+  color: #003580;
 }
 
-.booking-history table {
-  width: 100%;
-  border-collapse: collapse;
+.booking-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
-.booking-history th,
-.booking-history td {
+.booking-card {
+  flex: 1 1 320px;
+  background: #fff;
   border: 1px solid #ccc;
-  padding: 10px;
-  text-align: center;
+  border-left: 6px solid #003580;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
 }
 
-.booking-history th {
-  background-color: #f0f0f0;
+.booking-card:hover {
+  transform: translateY(-3px);
 }
 
-.booking-history tr:nth-child(even) {
-  background-color: #fafafa;
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #003580;
 }
 
-.table-wrapper {
-  overflow-x: auto;
+.room-number {
+  color: #999;
+  font-weight: normal;
+}
+
+.booking-dates,
+.booking-status {
+  font-size: 14px;
+  color: #333;
+}
+
+.booking-status p {
+  margin: 5px 0;
+}
+
+.status.confirmed {
+  color: green;
+  font-weight: bold;
+}
+.status.pending {
+  color: orange;
+  font-weight: bold;
+}
+.status.cancelled {
+  color: red;
+  font-weight: bold;
+}
+
+.payment.paid {
+  color: green;
+  font-weight: bold;
+}
+.payment.unpaid {
+  color: red;
+  font-weight: bold;
+}
+.payment.refunded {
+  color: orange;
+  font-weight: bold;
+}
+
+.price {
+  font-weight: bold;
+  color: #d32f2f;
 }
 
 .error {
@@ -42,5 +92,3 @@
   font-weight: bold;
   padding: 10px;
 }
-
-
