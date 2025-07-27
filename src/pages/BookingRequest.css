@@ -1,0 +1,53 @@
+.request-container {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.request-container h2 {
+  color: #003366;
+  margin-bottom: 20px;
+}
+
+.request-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.request-container label {
+  font-weight: 500;
+  color: #333;
+}
+
+.request-container input[type="date"],
+.request-container textarea {
+  padding: 8px;
+  font-size: 16px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.btn-submit {
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-submit:hover {
+  background: #0056b3;
+}
+
+.request-message {
+  margin-top: 15px;
+  color: green;
+  font-weight: bold;
+}

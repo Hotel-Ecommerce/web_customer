@@ -9,6 +9,8 @@ import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
 import ChangePassword from "./pages/ChangePassword";
 import PaymentPage from "./pages/PaymentPage";
+import BookingChangeRequest from "./pages/BookingChangeRequest";
+import BookingCancelRequest from "./pages/BookingCancelRequest";
 
 import PrivateRoute from "./components/PrivateRoute";
 import MainLayout from "./components/MainLayout";
@@ -55,6 +57,27 @@ function App() {
           <PrivateRoute>
             <MainLayout>
               <BookingHistory />
+            </MainLayout>
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/booking-change/:bookingId"
+        element={
+          <PrivateRoute>
+            <MainLayout>
+              <BookingChangeRequest />
+            </MainLayout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/booking-cancel/:bookingId"
+        element={
+          <PrivateRoute>
+            <MainLayout>
+              <BookingCancelRequest />
             </MainLayout>
           </PrivateRoute>
         }

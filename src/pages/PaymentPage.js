@@ -34,13 +34,13 @@ function PaymentPage() {
         setMessageColor("green");
       } else {
         setMessage("🕓 Đặt phòng thành công! Thanh toán khi nhận phòng");
-        setMessageColor("#1e88e5"); // Màu xanh dương
+        setMessageColor("#1e88e5");
       }
 
-      // ⏳ Sau 3 giây chuyển sang trang lịch sử đặt phòng
+      // ⏳ Sau 1 giây chuyển sang trang lịch sử đặt phòng
       setTimeout(() => {
         navigate("/my-booking");
-      }, 3000);
+      }, 1000);
     } catch (error) {
       setMessage("Có lỗi xảy ra. Vui lòng thử lại.");
       setMessageColor("red");

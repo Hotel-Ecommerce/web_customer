@@ -92,3 +92,71 @@
   font-weight: bold;
   padding: 10px;
 }
+
+.booking-history-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.booking-title {
+  font-size: 22px;
+  color: #0d47a1;
+  margin-bottom: 20px;
+}
+
+.booking-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 18px 24px;
+  margin-bottom: 24px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.booking-info p {
+  margin: 6px 0;
+}
+
+.booking-actions {
+  margin-top: 16px;
+  display: flex;
+  gap: 12px;
+}
+
+.booking-actions .btn-change {
+  background-color: #0071c2;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.booking-actions .btn-change:hover {
+  background-color: #005fa3;
+}
+
+.booking-actions .btn-cancel {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.booking-actions .btn-cancel:hover {
+  background-color: #c62828;
+}

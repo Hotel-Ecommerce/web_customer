@@ -1,0 +1,92 @@
+.booking-change-page {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  background-color: #fdfdfd;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.booking-change-page h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.booking-list {
+  margin-bottom: 40px;
+}
+
+.booking-card {
+  border: 1px solid #ccc;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+.booking-card strong {
+  display: inline-block;
+  width: 140px;
+}
+
+.request-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+}
+
+.request-form label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.request-form input,
+.request-form select,
+.request-form textarea {
+  padding: 8px 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.request-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.request-form button {
+  width: 200px;
+  padding: 10px;
+  margin-top: 15px;
+  background-color: #0071c2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.request-form button:hover {
+  background-color: #005999;
+}
+
+.message {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 5px;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+}
