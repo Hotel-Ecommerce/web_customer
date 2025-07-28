@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../api/AuthAPI";
 import { Container, Row, Col, Card, Form, Button, Alert } from "react-bootstrap";
-import "./Auth.css";
+import "../css/Auth.css";
 
 const Signup = () => {
   const [form, setForm] = useState({ fullName: '', email: '', password: '', phone: '', address: '' });

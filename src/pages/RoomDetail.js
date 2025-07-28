@@ -3,7 +3,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { Carousel, Modal, Button } from "react-bootstrap";
 import { getRoomById } from "../api/RoomAPI";
 import { addBooking } from "../api/BookingAPI";
-import "./RoomDetail.css";
+import "../css/RoomDetail.css";
 
 function RoomDetail() {
   const { id } = useParams();

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getCustomerById, updateCustomer } from "../api/CustomerAPI";
-import "./Profile.css";
+import "../css/Profile.css";
 
 function Profile() {
   const customerId = localStorage.getItem("customerId");

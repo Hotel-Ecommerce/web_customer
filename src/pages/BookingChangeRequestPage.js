@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getBookingsByCustomer } from "../api/BookingAPI";
 import { requestBookingChange, requestBookingCancellation } from "../api/BookingChangeRequestAPI";
 import { format } from "date-fns";
-import './BookingChangeRequestPage.css';
+import '../css/BookingChangeRequestPage.css';
 
 function BookingChangeRequestPage() {
   const [bookings, setBookings] = useState([]);

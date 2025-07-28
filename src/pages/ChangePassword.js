@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Auth.css"; // Dùng lại form style
+import "../css/Auth.css"; // Dùng lại form style
 import { changePassword } from "../api/CustomerAPI";
 
 function ChangePassword() {

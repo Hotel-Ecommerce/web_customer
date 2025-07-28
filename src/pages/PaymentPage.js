@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { markBookingPaid, getBookingById } from "../api/BookingAPI";
-import "./PaymentPage.css";
+import "../css/PaymentPage.css";
 
 function PaymentPage() {
   const { bookingId } = useParams();
