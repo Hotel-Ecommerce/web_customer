@@ -63,7 +63,7 @@ function Header() {
     <header className={styles.header}>
       <div className={styles.left}>
         <Link to="/" className={styles.logo}>
-          HOTEL BOOKING
+          ADORA
         </Link>
       </div>
 

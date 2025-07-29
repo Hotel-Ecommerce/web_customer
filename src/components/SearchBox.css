@@ -8,7 +8,7 @@
   border-radius: 12px;
   margin: 30px auto;
   max-width: 1100px;
-  justify-content: space-between;
+  align-items: flex-end; /* thêm dòng này để các item nằm cùng đường */
 }
 
 .search-item {
@@ -33,6 +33,15 @@
   transition: all 0.2s ease-in-out;
 }
 
+/* cải thiện placeholder và focus */
+.search-item input[type="date"] {
+  color: #999;
+}
+
+.search-item input[type="date"]:valid {
+  color: #000;
+}
+
 .search-item input[type="date"]:focus,
 .search-item select:focus {
   border-color: #1a73e8;
@@ -40,9 +49,8 @@
   box-shadow: 0 0 5px rgba(26, 115, 232, 0.2);
 }
 
-.search-item button {
-  align-self: flex-end;
-  margin-top: 24px;
+/* Nút tìm phòng */
+.search-button {
   padding: 10px 18px;
   background-color: #0071c2;
   color: #fff;
@@ -55,16 +63,6 @@
   transition: background-color 0.3s ease;
 }
 
-.search-item button:hover {
+.search-button:hover {
   background-color: #005fa3;
-}
-
-@media (max-width: 768px) {
-  .search-box {
-    flex-direction: column;
-  }
-
-  .search-item {
-    width: 100%;
-  }
 }

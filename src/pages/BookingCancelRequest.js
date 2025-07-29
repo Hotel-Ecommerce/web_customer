@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getBookingById } from "../api/BookingAPI";
 import api from "../api/axiosInstance";
-import "../css/BookingRequest.css";
+import "../css/BookingCancelRequest.css";
 
 function BookingCancelRequest() {
   const { bookingId } = useParams();
@@ -18,7 +18,6 @@ function BookingCancelRequest() {
         const data = await getBookingById(bookingId);
         setBooking(data);
 
-        // Lấy yêu cầu gần nhất (nếu có)
         const reqRes = await api.get("/bookingChangeRequests", {
           params: { bookingId, customerId: data.customerId._id, type: "Cancel" },
         });
@@ -82,4 +81,4 @@ function BookingCancelRequest() {
   );
 }
 
-export default BookingCancelRequest;
+export default BookingCancelRequest; 

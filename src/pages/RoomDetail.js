@@ -45,6 +45,20 @@ function RoomDetail() {
     }
   }, [room, checkIn, checkOut]);
 
+  // ✅ Ràng buộc: nếu checkIn > checkOut thì xóa checkOut
+  useEffect(() => {
+    if (checkIn && checkOut && new Date(checkIn) > new Date(checkOut)) {
+      setCheckOut("");
+    }
+  }, [checkIn, checkOut]);
+
+  // ✅ Ràng buộc: nếu checkOut < checkIn thì xóa checkIn
+  useEffect(() => {
+    if (checkIn && checkOut && new Date(checkOut) < new Date(checkIn)) {
+      setCheckIn("");
+    }
+  }, [checkIn, checkOut]);
+
   const formatDate = (dateStr) => {
     const d = new Date(dateStr);
     return d.toLocaleDateString("vi-VN");
@@ -131,7 +145,7 @@ function RoomDetail() {
           <input
             type="date"
             value={checkIn}
-            min={new Date().toISOString().split("T")[0]} // ✅ Không chọn ngày trong quá khứ
+            min={new Date().toISOString().split("T")[0]}
             onChange={(e) => setCheckIn(e.target.value)}
           />
         </label>

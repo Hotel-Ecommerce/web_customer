@@ -94,7 +94,13 @@ function Home() {
       <div style={styles.roomList}>
         {loading ? (
           <div style={{ textAlign: "center", padding: 40 }}>
-            <p>Đang tải phòng...</p>
+            <img
+              src="https://i.gifer.com/ZZ5H.gif"
+              alt="Đang tải..."
+              width="60"
+              height="60"
+            />
+            <p>Đang tải danh sách phòng...</p>
           </div>
         ) : currentRooms.length > 0 ? (
           currentRooms.map((room) => (
@@ -119,7 +125,10 @@ function Home() {
           <span>
             Trang {currentPage} / {totalPages}
           </span>
-          <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
             Tiếp &gt;
           </button>
         </div>

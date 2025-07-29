@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./SearchBox.css";
 
 function SearchBox({ filters, setFilters, onSearch }) {
   const today = new Date().toISOString().split("T")[0];
+
+  // Tự reset nếu checkIn > checkOut
+  useEffect(() => {
+    if (filters.checkIn && filters.checkOut && filters.checkIn > filters.checkOut) {
+      setFilters({ ...filters, checkOut: "" });
+    }
+  }, [filters, setFilters]);
+
+  // Tự reset nếu checkOut < checkIn
+  useEffect(() => {
+    if (filters.checkIn && filters.checkOut && filters.checkOut < filters.checkIn) {
+      setFilters({ ...filters, checkIn: "" });
+    }
+  }, [filters, setFilters]);
 
   return (
     <div className="search-box">
@@ -12,10 +26,9 @@ function SearchBox({ filters, setFilters, onSearch }) {
         <input
           type="date"
           value={filters.checkIn}
-          min={today} // Không chọn ngày trong quá khứ
-          onChange={(e) =>
-            setFilters({ ...filters, checkIn: e.target.value })
-          }
+          min={today}
+          max={filters.checkOut || ""}
+          onChange={(e) => setFilters({ ...filters, checkIn: e.target.value })}
         />
       </div>
 
@@ -26,9 +39,7 @@ function SearchBox({ filters, setFilters, onSearch }) {
           type="date"
           value={filters.checkOut}
           min={filters.checkIn || today}
-          onChange={(e) =>
-            setFilters({ ...filters, checkOut: e.target.value })
-          }
+          onChange={(e) => setFilters({ ...filters, checkOut: e.target.value })}
         />
       </div>
 
@@ -51,9 +62,7 @@ function SearchBox({ filters, setFilters, onSearch }) {
         <label>Sức chứa</label>
         <select
           value={filters.guests}
-          onChange={(e) =>
-            setFilters({ ...filters, guests: e.target.value })
-          }
+          onChange={(e) => setFilters({ ...filters, guests: e.target.value })}
         >
           <option value="">Tất cả</option>
           <option value="1">1 khách</option>
@@ -65,11 +74,13 @@ function SearchBox({ filters, setFilters, onSearch }) {
 
       {/* Nút tìm kiếm */}
       <div className="search-item">
-        <label>&nbsp;</label>
-        <button onClick={onSearch}>Tìm phòng</button>
+        <button className="search-button" onClick={onSearch}>
+          Tìm phòng
+        </button>
       </div>
     </div>
   );
 }
 
 export default SearchBox;
+
