@@ -1,6 +1,6 @@
 .room-card {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   background: #fff;
   border-radius: 12px;
   overflow: hidden;

@@ -78,7 +78,7 @@ const BookingHistory = () => {
                 {booking.roomId?.images?.[0] && (
                   <div className="booking-img">
                     <img
-                      src={`http://localhost:5000/uploads/${booking.roomId.images[0]}`}
+                      src={`http://localhost:7079/uploads/${booking.roomId.images[0]}`}
                       alt="Room"
                     />
                   </div>
@@ -123,10 +123,10 @@ const BookingHistory = () => {
                 {booking.status === "Confirmed" && !isPastCheckIn && (
                   <div className="booking-actions">
                     <button onClick={() => handleRequestChange(booking._id)} className="btn-change">
-                      Yêu cầu thay đổi
+                      Thay đổi
                     </button>
                     <button onClick={() => handleRequestCancel(booking._id)} className="btn-cancel">
-                      Yêu cầu hủy
+                      Hủy
                     </button>
                   </div>
                 )}

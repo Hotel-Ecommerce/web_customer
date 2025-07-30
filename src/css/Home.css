@@ -1,50 +1,48 @@
+/* styles/Home.css */
 .home-container {
-  padding: 30px;
+  padding: 20px;
   max-width: 1200px;
   margin: auto;
 }
 
-.room-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 24px;
-  margin-top: 20px;
+.search-container {
+  margin-bottom: 30px;
 }
 
-.loading,
-.no-room {
+.room-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.loading {
   text-align: center;
   padding: 40px;
-  font-size: 16px;
-  color: #666;
 }
 
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  margin-top: 20px;
+  gap: 16px;
+  margin-top: 30px;
   padding-bottom: 40px;
 }
 
 .pagination button {
-  background-color: #0071c2;
-  color: white;
+  padding: 8px 16px;
   border: none;
-  padding: 8px 14px;
-  border-radius: 4px;
+  background-color: #ff385c;
+  color: white;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
-  transition: background-color 0.2s ease;
-}
-
-.pagination button:hover:not(:disabled) {
-  background-color: #005a99;
+  transition: background-color 0.3s ease;
 }
 
 .pagination button:disabled {
-  background-color: #ccc;
+  background-color: #ddd;
+  color: #999;
   cursor: not-allowed;
 }
 
@@ -53,3 +51,9 @@
   font-weight: 500;
 }
 
+/* Responsive tweak */
+@media (max-width: 768px) {
+  .room-list {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+  }
+}

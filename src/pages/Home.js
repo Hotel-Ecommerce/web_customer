@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import SearchBox from "../components/SearchBox";
 import RoomCard from "../components/RoomCard";
 import { getAllRooms, getAvailableRooms } from "../api/RoomAPI";
+import "../css/Home.css"; // Đảm bảo import đúng CSS
 
 function Home() {
   const [allRooms, setAllRooms] = useState([]);
@@ -16,7 +17,7 @@ function Home() {
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const roomsPerPage = 5;
+  const roomsPerPage = 8;
   const indexOfLastRoom = currentPage * roomsPerPage;
   const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
   const currentRooms = rooms.slice(indexOfFirstRoom, indexOfLastRoom);
@@ -52,7 +53,7 @@ function Home() {
         return matchType && matchGuests;
       });
       setRooms(filtered);
-      setCurrentPage(1); // reset page
+      setCurrentPage(1);
     } else {
       setLoading(true);
       try {
@@ -82,8 +83,8 @@ function Home() {
   };
 
   return (
-    <>
-      <div style={{ marginTop: 20 }}>
+    <div className="home-container">
+      <div className="search-container">
         <SearchBox
           filters={filters}
           setFilters={setFilters}
@@ -91,9 +92,9 @@ function Home() {
         />
       </div>
 
-      <div style={styles.roomList}>
+      <div className="room-list">
         {loading ? (
-          <div style={{ textAlign: "center", padding: 40 }}>
+          <div className="loading">
             <img
               src="https://i.gifer.com/ZZ5H.gif"
               alt="Đang tải..."
@@ -116,9 +117,8 @@ function Home() {
         )}
       </div>
 
-      {/* PHÂN TRANG */}
       {!loading && rooms.length > 0 && (
-        <div style={styles.pagination}>
+        <div className="pagination">
           <button onClick={handlePrevPage} disabled={currentPage === 1}>
             &lt; Trước
           </button>
@@ -133,25 +133,9 @@ function Home() {
           </button>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
-const styles = {
-  roomList: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "20px",
-    padding: "20px",
-    alignItems: "center",
-    maxWidth: "100%",
-  },
-  pagination: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "10px",
-    paddingBottom: "30px",
-  },
-};
-
 export default Home;
+
