@@ -5,7 +5,13 @@ import { Container, Row, Col, Card, Form, Button, Alert } from "react-bootstrap"
 import "../css/Auth.css";
 
 const Signup = () => {
-  const [form, setForm] = useState({ fullName: '', email: '', password: '', phone: '', address: '' });
+  const [form, setForm] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    phone: '',
+    address: ''
+  });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
@@ -19,9 +25,14 @@ const Signup = () => {
     e.preventDefault();
     setError('');
     setSuccess('');
+
+    if (!/^0\d{9}$/.test(form.phone)) {
+      setError("Số điện thoại không hợp lệ.");
+      return;
+    }
+
     setLoading(true);
     try {
-      console.log("a1");
       await signup(form);
       setSuccess('Đăng ký thành công! Chuyển về trang đăng nhập...');
       setTimeout(() => navigate('/login'), 1500);
@@ -80,7 +91,7 @@ const Signup = () => {
                   <Form.Control
                     type="text"
                     name="address"
-placeholder="Nhập địa chỉ"
+                    placeholder="Nhập địa chỉ"
                     value={form.address}
                     onChange={handleChange}
                   />
