@@ -1,8 +1,14 @@
 import axios from 'axios';
+const baseUrl = 'http://localhost:7079';
+
+if (process.env.NODE_ENV === 'production') {
+  baseUrl = "https://hotel-api.phuongtran.site"
+}
 
 const api = axios.create({
-  baseURL: 'http://localhost:7079',
+  baseURL: baseUrl,
 });
+
 
 // Thêm interceptor để gắn token
 api.interceptors.request.use((config) => {
