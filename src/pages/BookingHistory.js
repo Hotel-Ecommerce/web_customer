@@ -55,7 +55,7 @@ const BookingHistory = () => {
       <h2 className="booking-title">Lịch sử đặt phòng</h2>
 
       {isLoading ? (
-        <div style={{ textAlign: "center", padding: "40px" }}>
+        <div className="loading-wrapper">
           <img
             src="https://i.gifer.com/ZZ5H.gif"
             alt="Đang tải..."
@@ -69,63 +69,103 @@ const BookingHistory = () => {
       ) : (
         <>
           {currentBookings.map((booking) => {
+            const room = booking.room || {};
             const checkInDate = new Date(booking.checkInDate);
             const isPastCheckIn = checkInDate < today;
 
             return (
               <div key={booking._id} className="booking-card">
-                {/* ✅ Hình ảnh phòng */}
-                {booking.roomId?.images?.[0] && (
-                  <div className="booking-img">
-                    <img
-                      src={`http://localhost:7079/uploads/${booking.roomId.images[0]}`}
-                      alt="Room"
-                    />
+                <div className="booking-main">
+                  <div className="booking-left">
+                    <div className="booking-header">
+                      <div className="room-type">{room.type || "Phòng"}</div>
+                      <div className="room-number">Phòng {room.roomNumber || "?"}</div>
+                    </div>
+
+                    <div className="booking-info">
+                      <p>
+                        Nhận phòng: <strong>{isNaN(checkInDate) ? "-" : checkInDate.toLocaleDateString()}</strong>
+                      </p>
+                      <p>
+                        Trả phòng:{" "}
+                        <strong>
+                          {booking.checkOutDate
+                            ? new Date(booking.checkOutDate).toLocaleDateString()
+                            : "-"}
+                        </strong>
+                      </p>
+                      <p>
+                        Ngày đặt:{" "}
+                        <strong>
+                          {booking.createdAt
+                            ? new Date(booking.createdAt).toLocaleDateString()
+                            : "-"}
+                        </strong>
+                      </p>
+                      <p>
+                        Trạng thái:{" "}
+                        <strong
+                          className={
+                            booking.status === "Confirmed"
+                              ? "status confirmed"
+                              : booking.status === "Pending"
+                              ? "status pending"
+                              : "status cancelled"
+                          }
+                        >
+                          {booking.status || "-"}
+                        </strong>
+                      </p>
+                      <p>
+                        Thanh toán:{" "}
+                        <strong
+                          className={
+                            booking.paymentStatus === "Paid"
+                              ? "payment paid"
+                              : booking.paymentStatus === "Refunded"
+                              ? "payment refunded"
+                              : "payment unpaid"
+                          }
+                        >
+                          {booking.paymentStatus || "-"}
+                        </strong>
+                      </p>
+                      <p>
+                        Tổng tiền:{" "}
+                        <strong className="price">
+                          {typeof booking.totalPrice === "number"
+                            ? booking.totalPrice.toLocaleString() + " đ"
+                            : "-"}
+                        </strong>
+                      </p>
+                    </div>
                   </div>
-                )}
 
-                <div className="booking-header">
-                  <strong>{booking.roomId?.type || "Phòng"}</strong>
-                  <span>Phòng {booking.roomId?.roomNumber || "?"}</span>
+                  <div className="booking-right">
+                    {Array.isArray(room.images) && room.images[0] && (
+                      <div className="booking-img">
+                        <img
+                          src={`http://localhost:7079/uploads/${room.images[0]}`}
+                          alt="Room"
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
 
-                <div className="booking-info">
-                  <p>
-                    Nhận phòng: <strong>{checkInDate.toLocaleDateString()}</strong>
-                  </p>
-                  <p>
-                    Trả phòng:{" "}
-                    <strong>{new Date(booking.checkOutDate).toLocaleDateString()}</strong>
-                  </p>
-                  <p>
-                    Ngày đặt:{" "}
-                    <strong>{new Date(booking.createdAt).toLocaleDateString()}</strong>
-                  </p>
-                  <p>
-                    Trạng thái:{" "}
-                    <strong style={{ color: "green" }}>{booking.status}</strong>
-                  </p>
-                  <p>
-                    Thanh toán:{" "}
-                    <strong style={{ color: booking.paymentStatus === "Paid" ? "green" : "red" }}>
-                      {booking.paymentStatus}
-                    </strong>
-                  </p>
-                  <p>
-                    Tổng tiền:{" "}
-                    <strong style={{ color: "darkred" }}>
-                      {booking.totalPrice.toLocaleString()} đ
-                    </strong>
-                  </p>
-                </div>
-
-                {/* ✅ Ẩn nút nếu đã qua ngày nhận phòng */}
+                {/* nút nằm dưới, căn giữa toàn bộ card */}
                 {booking.status === "Confirmed" && !isPastCheckIn && (
-                  <div className="booking-actions">
-                    <button onClick={() => handleRequestChange(booking._id)} className="btn-change">
+                  <div className="booking-actions-center">
+                    <button
+                      onClick={() => handleRequestChange(booking._id)}
+                      className="btn-change"
+                    >
                       Thay đổi
                     </button>
-                    <button onClick={() => handleRequestCancel(booking._id)} className="btn-cancel">
+                    <button
+                      onClick={() => handleRequestCancel(booking._id)}
+                      className="btn-cancel"
+                    >
                       Hủy
                     </button>
                   </div>
@@ -134,7 +174,6 @@ const BookingHistory = () => {
             );
           })}
 
-          {/* PHÂN TRANG */}
           <div className="pagination">
             <button onClick={handlePrevPage} disabled={currentPage === 1}>
               &lt; Trước
