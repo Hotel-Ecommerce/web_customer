@@ -15,3 +15,8 @@ export const signout = async () => {
   return res.data;
 };
 
+export const refreshToken = async (refreshToken) => {
+  const res = await api.post(`/auth/refreshToken`, { refreshToken });
+  return res.data;
+};
+

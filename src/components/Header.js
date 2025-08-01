@@ -54,6 +54,7 @@ function Header() {
       await signout();
     } catch (e) {}
     localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
     localStorage.removeItem("customerId");
     navigate("/login");

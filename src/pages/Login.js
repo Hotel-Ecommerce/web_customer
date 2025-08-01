@@ -24,6 +24,7 @@ const Login = () => {
 
       // ✅ Lưu thông tin người dùng
       localStorage.setItem('token', data.token);
+      localStorage.setItem('refreshToken', data.refreshToken);
       localStorage.setItem('customerId', data._id);
       localStorage.setItem('user', JSON.stringify(data));
 
