@@ -16,7 +16,7 @@ function RoomCard({ room, checkIn, checkOut }) {
   return (
     <div className="room-card" onClick={handleClick}>
       <div className="room-img">
-        <img src={`http://localhost:7079${room.images?.[0]}`} alt={room.type} />
+        <img src={`https://hotel-api.phuongtran.site${room.images?.[0]}`} alt={room.type} />
       </div>
       <div className="room-info">
         <h3>{room.type} Room</h3>

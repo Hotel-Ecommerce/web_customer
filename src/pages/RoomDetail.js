@@ -127,7 +127,7 @@ function RoomDetail() {
           <Carousel.Item key={idx}>
             <img
               className="d-block w-100"
-              src={`http://localhost:7079${img}`}
+              src={`https://hotel-api.phuongtran.site${img}`}
               alt={`Ảnh ${idx + 1}`}
             />
           </Carousel.Item>
