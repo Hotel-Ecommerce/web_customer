@@ -20,6 +20,7 @@ function RoomCard({ room, checkIn, checkOut }) {
       </div>
       <div className="room-info">
         <h3>{room.type} Room</h3>
+        <p>Số phòng: {room.roomNumber}</p>
         <p className="description">{room.description}</p>
         <p>Sức chứa: {room.capacity} khách</p>
         <p className="price">{room.price.toLocaleString()} đ / đêm</p>
