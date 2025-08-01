@@ -145,7 +145,7 @@ const BookingHistory = () => {
                     {Array.isArray(room.images) && room.images[0] && (
                       <div className="booking-img">
                         <img
-                          src={`https://hotel-api.phuongtran.site/uploads/${room.images[0]}`}
+                          src={`https://hotel-api.phuongtran.site/${room.images[0]}`}
                           alt="Room"
                         />
                       </div>
