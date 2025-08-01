@@ -12,6 +12,17 @@
   margin-bottom: 24px;
   border-radius: 16px;
   overflow: hidden;
+  width: 700px;
+  height: 450px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.room-carousel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* giữ tỉ lệ, crop nếu cần */
+  border-radius: 16px;
 }
 
 .room-detail h2 {
