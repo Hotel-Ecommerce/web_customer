@@ -1,5 +1,5 @@
 import axios from 'axios';
-let baseUrl = 'http://localhost:7079';
+let baseUrl = 'http://localhost:3000';
 
 if (process.env.NODE_ENV === 'production') {
   baseUrl = "https://hotel-api.phuongtran.site"
